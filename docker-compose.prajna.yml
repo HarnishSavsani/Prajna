@@ -1,0 +1,51 @@
+name: prajna
+
+services:
+  prajna-falkordb:
+    image: falkordb/falkordb:v4.20.7
+    container_name: prajna-falkordb
+    ports:
+      - "6379:6379"
+      - "3001:3000" # FalkorDB browser interface
+    volumes:
+      - falkordb_data:/data
+    restart: unless-stopped
+
+  prajna-backend:
+    build:
+      context: .
+      dockerfile: prajna/Dockerfile
+    image: prajna-backend:latest
+    container_name: prajna-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - FALKORDB_HOST=prajna-falkordb
+      - FALKORDB_PORT=6379
+      - DEFAULT_TENANT=kirana
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    depends_on:
+      - prajna-falkordb
+    restart: unless-stopped
+
+  prajna-web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      args:
+        SKIP_TYPE_CHECK: "1"
+        DISABLE_REACT_COMPILER: "1"
+        NODE_OPTIONS: "--max-old-space-size=2048"
+    image: prajna-web:latest
+    container_name: prajna-web
+    ports:
+      - "3000:3000"
+    environment:
+      - INTERNAL_URL=http://prajna-backend:8080
+      - OVERRIDE_API_PRODUCTION=true
+    depends_on:
+      - prajna-backend
+    restart: unless-stopped
+
+volumes:
+  falkordb_data:

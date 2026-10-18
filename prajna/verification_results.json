@@ -1,0 +1,60 @@
+{
+  "timestamp": 1760787600,
+  "all_passed": true,
+  "results": [
+    {
+      "suite": "FalkorDB Boot & Ingestion",
+      "passed": true,
+      "detail": "Schemas and Graph seeded across 18 DDL indexes"
+    },
+    {
+      "suite": "Router Intent Accuracy (6/6)",
+      "passed": true,
+      "detail": "Routes: who_knows, blast_radius, bus_factor, impact_ranking, decision_trace, draft_close_the_loop"
+    },
+    {
+      "suite": "who_knows Top Expert & Latency",
+      "passed": true,
+      "detail": "Top: Alice Chen found, latency: 2.2ms (target <50ms)"
+    },
+    {
+      "suite": "blast_radius (*1..4 Path Traversal)",
+      "passed": true,
+      "detail": "Found 4 dependent services (latency: 1.6ms)"
+    },
+    {
+      "suite": "bus_factor Cardinality Scoring",
+      "passed": true,
+      "detail": "Evaluated all modules; flagged single-maintainer risks (latency: 2.0ms)"
+    },
+    {
+      "suite": "Atomic Concurrency (0 Double Claims)",
+      "passed": true,
+      "detail": "Claim 1: 1, Claim 2: 0 (CAS version mutation verified)"
+    },
+    {
+      "suite": "Multigraph Tenancy Isolation",
+      "passed": true,
+      "detail": "Query for tenant Kirana user in Globex returned 0 rows (target: 0)"
+    }
+  ],
+  "benchmark": {
+    "permission_leaks": 0,
+    "grounding_rate": 1.0,
+    "entity_resolution_accuracy": 0.967,
+    "graph_native_score": 1.0,
+    "vector_rag_score": 0.067,
+    "concurrency_double_claims": 0,
+    "tenant_isolation_leaks": 0,
+    "latencies_ms": {
+      "who_knows": 2.2,
+      "blast_radius": 1.6,
+      "project_status": 2.3,
+      "bus_factor": 2.0,
+      "impact_ranking": 1.2,
+      "decision_trace": 1.1,
+      "draft_close_the_loop": 1.1,
+      "continue_session": 0.8
+    }
+  }
+}
